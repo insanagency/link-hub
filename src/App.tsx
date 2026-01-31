@@ -1,16 +1,22 @@
+import { motion } from "framer-motion";
 import { BentoGrid, BentoItem } from "./components/BentoGrid";
 import { ProfileCard } from "./components/ProfileCard";
 import { BentoLinkCard } from "./components/BentoLinkCard";
 import { Background } from "./components/Background";
 import { siteConfig } from "./config";
-import { Palette, Globe, FolderGit2 } from "lucide-react";
+import { Palette, Globe, FolderGit2, Copyright } from "lucide-react";
 
 function App() {
     return (
-        <div className="min-h-screen w-full bg-black px-4 py-6 md:py-16 font-sans text-white selection:bg-white/20">
+        <div className="min-h-screen w-full bg-black px-4 py-8 md:py-24 font-sans text-white selection:bg-blue-500/30">
             <Background />
 
-            <main className="relative z-10 w-full max-w-[1200px] mx-auto">
+            <motion.main
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="relative z-10 w-full max-w-[1200px] mx-auto space-y-12"
+            >
                 <BentoGrid>
                     {/* Main Profile - Spans 2 cols */}
                     <BentoItem colSpan={2} rowSpan={2}>
@@ -53,9 +59,21 @@ function App() {
                             icon={FolderGit2}
                         />
                     </BentoItem>
-
                 </BentoGrid>
-            </main>
+
+                {/* Premium Footer */}
+                <footer className="pt-8 pb-4 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-zinc-500 text-sm font-medium">
+                    <div className="flex items-center gap-2">
+                        <Copyright size={14} />
+                        <span>{new Date().getFullYear()} {siteConfig.profile.name}. All rights reserved.</span>
+                    </div>
+                    <div className="flex gap-8">
+                        <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+                        <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                        <a href="#" className="hover:text-white transition-colors">Contact</a>
+                    </div>
+                </footer>
+            </motion.main>
         </div>
     );
 }

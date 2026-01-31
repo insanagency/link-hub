@@ -15,18 +15,17 @@ export function TiltCard({ children, className, onClick, href }: TiltCardProps) 
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
-    // Smooth spring physics for tilt
-    const mouseX = useSpring(x, { stiffness: 300, damping: 30 });
-    const mouseY = useSpring(y, { stiffness: 300, damping: 30 });
+    // Ultra-smooth spring physics
+    const mouseX = useSpring(x, { stiffness: 150, damping: 20 });
+    const mouseY = useSpring(y, { stiffness: 150, damping: 20 });
 
-    // Map mouse position to tilt rotation (clamped)
-    const rotateX = useTransform(mouseY, [-0.5, 0.5], ["7deg", "-7deg"]);
-    const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-7deg", "7deg"]);
+    // Subtle tilt rotation
+    const rotateX = useTransform(mouseY, [-0.5, 0.5], ["10deg", "-10deg"]);
+    const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-10deg", "10deg"]);
 
     function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
         const { left, top, width, height } = currentTarget.getBoundingClientRect();
 
-        // Normalized coordinates (-0.5 to 0.5)
         const normalizedX = (clientX - left) / width - 0.5;
         const normalizedY = (clientY - top) / height - 0.5;
 
@@ -56,26 +55,26 @@ export function TiltCard({ children, className, onClick, href }: TiltCardProps) 
                 transformStyle: "preserve-3d",
             }}
             className={cn(
-                "relative group h-full rounded-2xl border border-white/30 bg-black/40 backdrop-blur-3xl shadow-[0_0_15px_-5px_rgba(255,255,255,0.15)] transition-all duration-500 hover:scale-[1.02] hover:shadow-[0_0_25px_-5px_rgba(255,255,255,0.25)] hover:border-white/50 overflow-hidden",
+                "relative group h-full rounded-3xl border border-white/10 bg-glass backdrop-blur-3xl transition-all duration-700 hover:scale-[1.01] hover:border-white/20 premium-shadow overflow-hidden",
                 className
             )}
         >
             <div
-                style={{ transform: "translateZ(20px)" }}
+                style={{ transform: "translateZ(30px)" }}
                 className="relative z-10 w-full h-full"
             >
                 {children}
             </div>
 
-            {/* Dynamic Glare Effect */}
+            {/* Premium Glare Effect */}
             <motion.div
-                className="pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                className="pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                 style={{
                     background: useMotionTemplate`
             radial-gradient(
-              600px circle at ${useTransform(mouseX, [-0.5, 0.5], ["0%", "100%"])} ${useTransform(mouseY, [-0.5, 0.5], ["0%", "100%"])},
-              rgba(255,255,255, 0.15),
-              transparent 80%
+              1000px circle at ${useTransform(mouseX, [-0.5, 0.5], ["-50%", "150%"])} ${useTransform(mouseY, [-0.5, 0.5], ["-50%", "150%"])},
+              rgba(255,255,255, 0.08),
+              transparent 70%
             )
           `,
                 }}
